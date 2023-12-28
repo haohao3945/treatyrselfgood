@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>记得好好照顾自己</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            text-align: center;
+            font-family: '宋体', 'Songti', 'SimSun', sans-serif;
+            color: #333;
+            margin: 50px;
+        }
+
+        #affirmation-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Hide overflow for slider effect */
+        }
+
+        h1 {
+            color: #3498db;
+            font-size: 30px;
+            margin: 0;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        #affirmation-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        #affirmation-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        #question-container {
+            margin-bottom: 20px;
+        }
+
+        #question-text {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #user-answer {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #confirm-button, #answer-button,#reference-button,#feedback-button {
+            font-size: 16px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+			margin:0 auto;
+        }
+
+        #navigation button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #3498db;
+            transition: color 0.3s ease;
+        }
+
+        #navigation button:hover {
+            color: #2980b9;
+        }
+
+        /* Your existing feedback section remains unchanged */
+		#feedback{
+			display:none;
+		}
+
+        /* Additional style for the textarea */
+        #feedback-textarea {
+            display: none;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="affirmation-container">
+        <h1><strong>记得好好照顾自己</strong></h1>
+        <img id="affirmation-image" src="affirmation0.jpg" alt="Affirmation Image">
+        <p id="affirmation-text">Loading...</p>
+
+ 
+		<div id="final-container" style="display:none;">
+			<p> 好了，你已经完成了，喜欢这样的方式，可以点击以下按钮去到feedback form 告诉我，我就会出更多这样的系列。喜欢这个app 的话，可以把app 存在手机里，下面有教程！</p>
+			<button id="feedback-button" onclick="displayAddHome()" style="display:none;margin-top:10px;">填写Feedback,或者把APP加到手机</button>
+		</div>
+        <div id="navigation">
+            <button class="arrow-left" style="font-size:15px;" onclick="prevAffirmation()">&larr;上一页</button>
+            <button class="arrow-right" style="font-size:15px;" onclick="nextAffirmation()">下一页&rarr;</button>
+        </div>
+    </div>
+     <div class="section " id="feedback" style="margin-top:80px;" >
+            <div class="row">
+
+                <div class="col-12 col-6" style="margin-bottom:30px;">
+                    <h1>将 Web App 添加到主屏幕</h1>
+                    <p>如果你喜欢这个app, 想要时常用的话，可以在浏览器中打开，然后选择“添加到主屏幕”以创建应用的快捷方式。</p>
+                    <iframe src="https://www.youtube.com/embed/dTFaSVUlmA4?si=haZAEGNuYLF5ZXxc" frameborder="0" style="width:100%; min-height:400px;"allowfullscreen></iframe>
+                </div>
+                <div class="col-12 col-6" >
+                    <h1>给我们一点意见</h1>
+                    <form action="https://script.google.com/macros/s/AKfycbxHQefQKgU5bVNMaDdbp_oP8mge0U2UAcvx2Y9M0c8kOJxpuCfJUbimgESUCeKJrZ2blg/exec" method="POST">
+                        <label for="feedback">提供反馈：</label>
+                        <textarea id="moreDetails" name="details" class="form-control" id="feedback" rows="3"></textarea>
+                        <button type="submit" class="btn btn-primary mt-2">提交反馈</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <!-- Your existing feedback section remains unchanged -->
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+		var firsttime = true;
+		function remove(){
+			if (firsttime ===true){
+				affirmations.shift();
+				currentAffirmationIndex = currentAffirmationIndex - 1;
+				firsttime = false;
+				document.getElementById("affirmation-text").style.textAlign = "left";
+
+
+			}	
+		}	
+		
+        var affirmations = [
+            { text: " 睡前很多事情没解决，很焦虑怎么办？先照顾好自己，无论多么不负责，不照顾好自己，你会一直犯错，最后连身体也赔了。\n\n 点击 '下一页'开始", image: "safety0.png", defaultAnswer: "" },
+		  {
+			"text": "1. 世界上除了自己 没有人会对你好,就算工作没完成,也要早点睡觉哦",
+			"image": "logical1.jpg",
+			"defaultAnswer": "未回答",
+			"referenceAnswer": "你可以问任意一个守门人，'如果我问另一个守门人，他会告诉我哪扇门通往安全之地吗？' 如果他说是，那么选择他所指的门；如果他说不是，那么选择另一扇门。"
+		  },
+		  {
+			"text": "2. 接受自己现在的状况吧,你已经负重前行很久了,对抗了那么久仍然没有改变,不就说明需要改变策略了吗. 接受,然后尽力完成自己该做的,进步自己",
+			"image": "logical2.jpg",
+			"defaultAnswer": "未回答",
+			"referenceAnswer": "你可以问他，'如果我问你是不是总是说谎话，你会说是吗？' 如果他说是，那么他是总是说真话的类型；如果他说不是，那么他是总是说谎话的类型。"
+		  },
+		  {
+			"text": "3. 不接受自己会犯错的人 是最痛苦的.允许自己犯错,你无法决定别人怎么对待你的错误.但是你可以决定的是,你用什么心情来面对.是焦虑,顺其自然,进步自己,还是另寻机会",
+			"image": "logical3.jpg",
+			"defaultAnswer": "未回答",
+			"referenceAnswer": "你可以问任意一个人，'如果我问另外两个人，哪一个是说真话的？' 然后选择不同于他回答的那个人。"
+		  },
+		  {
+			"text": "4. 任何人都不配影响你的睡眠,好心情",
+			"image": "logical4.jpg",
+			"defaultAnswer": "未回答",
+			"referenceAnswer": "打开一个开关待一会，然后关闭它。接着打开另一个开关，然后走进房间。观察灯的状态：如果灯亮着，说明这是第一个开关控制的；如果灯熄灭，摸一下灯泡：如果是热的，说明这是第二个开关控制的；如果是冷的，说明这是第三个开关控制的。"
+		  },
+		  {
+			"text": "5. 为什么应该多反省优点,少反省缺点? 每天骂自己的人,会多成功? 只有找到优势才能成功,不是吗?",
+			"image": "logical5.jpg",
+			"defaultAnswer": "未回答",
+			"referenceAnswer": "小明喝橙汁，小红喝苹果汁，小杰喝葡萄汁，小花喝橙汁。"
+		  },
+		  {
+			"text": "6. 与其说正确的路,不如说对自己有信息,为什么? 所有的路和方法都是人走出来的.与其担心犯错,不如想想如何走通",
+			"image": "logical6.jpg",
+			"defaultAnswer": "未回答",
+			"referenceAnswer": "红色房子-英国人-混合香烟-鸟-茶；蓝色房子-挪威人- Dunhill 香烟-猫-水；黄色房子-丹麦人-Bluemaster 香烟-马-啤酒；绿色房子-德国人-Prince 香烟-鱼-咖啡；白色房子-瑞典人- Pall Mall 香烟-狗-牛奶。"
+		  },
+		  {
+			"text": "7. 与其担心自己未来,担心被拒绝,不如去增长技能, 学习谈判,学习传递价值给更多的人",
+			"image": "logical7.jpg",
+			"defaultAnswer": "未回答",
+			"referenceAnswer": "红色房子-英国人-混合香烟-鸟-茶；蓝色房子-挪威人- Dunhill 香烟-猫-水；黄色房子-丹麦人-Bluemaster 香烟-马-啤酒；绿色房子-德国人-Prince 香烟-鱼-咖啡；白色房子-瑞典人- Pall Mall 香烟-狗-牛奶。"
+		  },
+            { text: "", image: "safety0.png", defaultAnswer: "" },
+
+ // Add more affirmations as needed
+        ];
+
+        var currentAffirmationIndex = 0;
+
+		function showAffirmation(index) {
+			var affirmation = affirmations[index];
+			document.getElementById('affirmation-text').innerHTML = affirmation.text.replace(/\n/g, '<br>');
+			document.getElementById('affirmation-image').src = affirmation.image;
+
+		}
+
+
+		
+        function nextAffirmation() {
+            currentAffirmationIndex = (currentAffirmationIndex + 1) % affirmations.length;
+            showAffirmation(currentAffirmationIndex);
+			remove();
+			checklast();
+			uncheckAnswer();
+        }
+
+        function prevAffirmation() {
+            currentAffirmationIndex = (currentAffirmationIndex - 1 + affirmations.length) % affirmations.length;
+            showAffirmation(currentAffirmationIndex);
+			remove();
+			checklast();
+			uncheckAnswer();
+        }
+		
+
+		function checklast(){
+			if (currentAffirmationIndex === affirmations.length-1){
+
+				document.getElementById('final-container').style.display="block";
+				document.getElementById('feedback-button').style.display="block";
+
+				
+			}else{
+
+				document.getElementById('final-container').style.display="none";			
+			}
+		}
+		
+		function displayAddHome(){
+			document.getElementById('feedback').style.display="block";
+			// Fetch the URL
+			fetch('https://script.google.com/macros/s/AKfycbxMdAmgo9_wsiUIU23pRZpeYuHqd50RdKukED3w1Q_fRmyuGrqQBEcavc-WxI-7PQQg8A/exec?cta=11')
+				.then(response => response.json()
+				
+				)
+				.then(data => {
+					// Handle the data as needed
+					console.log(data);
+				})
+				.catch(error => {
+					// Handle errors
+					console.error('Error fetching data:', error);
+				});
+		}
+        // Initial display
+        showAffirmation(currentAffirmationIndex);
+		
+	// track view 
+	window.onload = function() {
+	console.log("hi")
+	// Fetch the URL
+    fetch('https://script.google.com/macros/s/AKfycbxMdAmgo9_wsiUIU23pRZpeYuHqd50RdKukED3w1Q_fRmyuGrqQBEcavc-WxI-7PQQg8A/exec?view=11')
+        .then(response => response.json()
+		
+		)
+        .then(data => {
+            // Handle the data as needed
+            console.log(data);
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error fetching data:', error);
+        });
+	//	addAppToHomeScreen()
+	
+	};
+
+	setTimeout(function () {
+		fetch('https://script.google.com/macros/s/AKfycbxMdAmgo9_wsiUIU23pRZpeYuHqd50RdKukED3w1Q_fRmyuGrqQBEcavc-WxI-7PQQg8A/exec?home=11')
+		.then(response => response.json())
+		.then(data => {
+			console.log(data);
+		})
+		.catch(error => {
+			console.error('Error fetching data:', error);
+		});
+
+      }, 30000);
+	  
+    </script>
+</body>
+
+</html>
